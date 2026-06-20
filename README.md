@@ -77,10 +77,12 @@ pip install -r requirements.txt
 - Encoding: OneHotEncoder
 - Imputation: Median & Most Frequent
 
-#$  📸 UI Preview
+##  📸 UI Preview
 
 
 <img width="1917" height="1077" alt="loan_approval1" src="https://github.com/user-attachments/assets/cc27d52a-0d81-41ab-86ee-4e58b497d884" />
+
+<img width="1918" height="1078" alt="loan_approval2" src="https://github.com/user-attachments/assets/71ad4cb9-a85c-4ddc-9ec4-2c0738063731" />
 
 
 ## 👨‍💻 Author
