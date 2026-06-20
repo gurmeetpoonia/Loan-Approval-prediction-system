@@ -12,24 +12,18 @@ if "history" not in st.session_state:
     st.session_state.history = []
 
 st.set_page_config(page_title="Loan Approval Predictor", page_icon="🏦",layout="wide")
-if not st.session_state.api_checked:
+API_URL = "https://loan-approval-prediction-system-mnx6.onrender.com"
 
-    try:
-        response = requests.get(
-            "https://loan-approval-prediction-system-mnx6.onrender.com",
-            timeout=30
-        )
+try:
+    response = requests.get(API_URL, timeout=30)
 
-        if response.status_code == 200:
-            st.session_state.api_status = True
+    if response.status_code == 200:
+        st.success("🟢 API Active")
+    else:
+        st.error("🔴 API Offline")
 
-        st.toast("🟢 API Active")
-
-    except:
-        st.session_state.api_status = False
-        st.toast("🔴 API Offline")
-
-    st.session_state.api_checked = True
+except Exception as e:
+    st.error(f"Connection Error: {e}")
 
 tab1, tab2, tab3 = st.tabs([
     "🏦 Predictor",
@@ -182,7 +176,7 @@ with tab1:
             #predication 
             try:
                 response = requests.post(
-            "https://loan-approval-prediction-system-mnx6.onrender.com/predict",json=input_df.iloc[0].to_dict(),timeout=30)
+        f"{API_URL}/predict",json=input_df.iloc[0].to_dict(),timeout=30)
 
                 result = response.json()
 
