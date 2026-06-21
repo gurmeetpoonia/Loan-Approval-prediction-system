@@ -107,19 +107,16 @@ with tab1:
         ApplicantIncome = st.number_input(
     "Applicant Income",
     min_value=1,
-    value=120
+    value=120, key="app_income"
 )
 
-        CoapplicantIncome = st.number_input(
-    "Coapplicant Income",
-    min_value=0,
-    value=0
-)
+        CoapplicantIncome = st.number_input("Coapplicant Income",min_value=0,
+    value=0,  key="coapp_income" )
 
         LoanAmount = st.number_input(
     "Loan Amount",
     min_value=0,
-    value=5000
+    value=5000,key="loan_amount"
 )
 
         credit_value = None
@@ -133,17 +130,15 @@ with tab1:
 
         col1,col2=st.columns(2)
 
-        with col1:
-            predict=st.button("Predict Loan Status",width="stretch",type="primary"
-    )       
-            
-        with col2:
-            reset=st.button("Reset Form",width="stretch")
+        left, center, right = st.columns([1,2,1])
 
-
-        if reset:
-            st.rerun()
-
+        with center:
+            predict = st.button(
+        "Predict Loan Status",
+        use_container_width=True,
+        type="primary"
+    )
+        
         input_df = pd.DataFrame({
 
             'Gender': [Gender],
@@ -298,7 +293,30 @@ with tab2:
                 st.session_state.history,
                 ignore_index=True
             )
+        last = history.iloc[-1]
 
+        
+        c1, c2, c3 = st.columns(3)
+
+        with c1:
+            st.metric(
+                "Latest Prediction",
+                last["Prediction"]
+            )
+
+        with c2:
+            st.metric(
+                "Approval %",
+                f"{last['Approval_Probability']:.2f}%"
+            )
+
+        with c3:
+            st.metric(
+                "Rejection %",
+                f"{last['Rejection_Probability']:.2f}%"
+            )
+
+        st.markdown("---")
 
         st.dataframe(history,width="stretch")
 
