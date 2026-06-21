@@ -20,24 +20,7 @@ if "api_checked" not in st.session_state:
 if "api_status" not in st.session_state:
     st.session_state.api_status = False
 
-if not st.session_state.api_checked:
 
-    try:
-        response = requests.get(API_URL
-            ,
-            timeout=2
-        )
-
-        if response.status_code == 200:
-            st.session_state.api_status = True
-
-        st.toast("🟢 API Active")
-
-    except:
-        st.session_state.api_status = False
-        st.toast("🔴 API Offline")
-
-    st.session_state.api_checked = True
 
 tab1, tab2, tab3 = st.tabs([
     "🏦 Predictor",
