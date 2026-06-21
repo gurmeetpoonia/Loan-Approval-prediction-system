@@ -4,7 +4,10 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.pipeline import Pipeline
+
 from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import roc_auc_score
 from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay,accuracy_score
 import matplotlib.pyplot as plt
@@ -34,7 +37,7 @@ categorical_transformer=Pipeline(steps=[("imputer",SimpleImputer(strategy="most_
 preprocessor=ColumnTransformer(transformers=[("num",numeric_transformer,numeric_features),("cat",categorical_transformer,Categorical_features)])
 
 #model ko define karna and pipeline saare kaam khud karta ha 
-model=Pipeline(steps=[("preprocessor",preprocessor),("classifier",GradientBoostingClassifier(n_estimators=200,learning_rate=0.05,max_depth=3,random_state=42))])
+model=Pipeline(steps=[("preprocessor",preprocessor),("classifier",RandomForestClassifier(n_estimators=200,random_state=42))])
 
 
 X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2,random_state=42)
@@ -52,8 +55,14 @@ print(cm)
 
 scores = cross_val_score(model, X, y, cv=5)
 print(scores.mean())
+y_proba = model.predict_proba(X_test)[:, 1]
+
+# 📊 ROC-AUC score
+auc = roc_auc_score(y_test, y_proba)
+
+print("ROC-AUC Score:", auc)
 
 
-pickle.dump(model, open("loan_model.pkl", "wb"))
+#pickle.dump(model, open("loan_model.pkl", "wb"))
 
 print("Model saved successfully!")
