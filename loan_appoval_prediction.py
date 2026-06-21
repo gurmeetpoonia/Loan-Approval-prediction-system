@@ -63,6 +63,6 @@ auc = roc_auc_score(y_test, y_proba)
 print("ROC-AUC Score:", auc)
 
 
-#pickle.dump(model, open("loan_model.pkl", "wb"))
+pickle.dump(model, open("loan_model.pkl", "wb"))
 
 print("Model saved successfully!")
